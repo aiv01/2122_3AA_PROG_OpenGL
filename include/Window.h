@@ -3,7 +3,17 @@
 typedef struct GLFWwindow GLFWwindow;
 
 class Window
-{
+{    
+public:
+    Window(int InWidth, int InHeight, const std::string& InTitle);
+    ~Window();
+
+    void SetTitle(const std::string& InTitle);
+    bool IsOpened() const;
+    float GetDeltaTime() const;
+    void Update();
+    void PrintInfo() const;
+
 private:
     int Width;
     int Height;
@@ -11,13 +21,4 @@ private:
     GLFWwindow* RawWindow;
     float DeltaTime;
 	float LastTime;
-    
-public:
-    Window(int InWidth, int InHeight, const std::string& InTitle);
-    ~Window();
-
-    bool IsOpened();
-    void Update();
-    void SetTitle(const std::string& InTitle);
-    float GetDeltaTime();
 };

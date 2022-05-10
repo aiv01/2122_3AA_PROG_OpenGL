@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include "Window.h"
+#include "Common.h"
 
 Window::Window(int InWidth, int InHeight, const std::string& InTitle)
  : Width(InWidth), Height(InHeight), Title(InTitle)
@@ -9,10 +10,13 @@ Window::Window(int InWidth, int InHeight, const std::string& InTitle)
     DeltaTime = 0.f;
     LastTime = 0.f;
 
+	/*
     if (!glfwInit() )
 	{
 		std::cout << "Failed to initialize GLFW" << std::endl;
 	}
+	*/
+	DIE_ON_ERROR(glfwInit(), "Failed to initialize GLFW");
 
 	// hints to init window
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -22,29 +26,46 @@ Window::Window(int InWidth, int InHeight, const std::string& InTitle)
 
 	RawWindow = glfwCreateWindow(Width, Height, Title.c_str(), NULL, NULL);
 
+	/*
 	if (!RawWindow)
 	{
 		std::cout << "Error: Opening Window" << std::endl;
 	}
+	*/
+
+	DIE_ON_NULL(RawWindow, "Error: Opening Window");
 
     // redirect all commands to window
 	glfwMakeContextCurrent(RawWindow);
 
-    	// load GLAD
+    // load GLAD
+	/*
 	if (!gladLoadGL())
 	{
 		std::cout << "Error: GLAD Wrapper" << std::endl;
 	}
+	*/
 
-	printf("GL VERSION: %s\n", glGetString(GL_VERSION));
-	printf("GL RENDERER: %s\n", glGetString(GL_RENDERER));
-	printf("GL VENDOR: %s\n", glGetString(GL_VENDOR));
-	printf("GLSL VERSION: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
-	
+	DIE_ON_ERROR(glfwInit(), "Error: GLAD Wrapper");
 }
 
+Window::~Window()
+{
+    glfwDestroyWindow(RawWindow);
+    glfwTerminate();
+}
 
-bool Window::IsOpened()
+void Window::SetTitle(const std::string& InTitle)
+{
+    glfwSetWindowTitle(RawWindow, InTitle.c_str());
+}
+
+float Window::GetDeltaTime() const
+{
+    return DeltaTime;
+}
+
+bool Window::IsOpened() const
 {
     return !glfwWindowShouldClose(RawWindow);
 }
@@ -61,18 +82,11 @@ void Window::Update()
 	glfwPollEvents();
 }
 
-void Window::SetTitle(const std::string& InTitle)
+void PrintInfo()
 {
-    glfwSetWindowTitle(RawWindow, InTitle.c_str());
+	printf("GL VERSION: %s\n", glGetString(GL_VERSION));
+	printf("GL RENDERER: %s\n", glGetString(GL_RENDERER));
+	printf("GL VENDOR: %s\n", glGetString(GL_VENDOR));
+	printf("GLSL VERSION: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 }
 
-float Window::GetDeltaTime()
-{
-    return DeltaTime;
-}
-
-Window::~Window()
-{
-    glfwDestroyWindow(RawWindow);
-    glfwTerminate();
-}
