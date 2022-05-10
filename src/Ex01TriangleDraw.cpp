@@ -4,6 +4,8 @@
 #include <fstream>
 #include "Common.h"
 #include <iostream>
+#include <glad/glad.h>
+#include <vector>
 
 std::string ReadFile(const std::string& InFilePath)
 {
@@ -27,10 +29,29 @@ std::string ReadFile(const std::string& InFilePath)
     return Result;
 }
 
-void CreateShader(const std::string& InFilePath)
+GLuint CreateShader(const std::string& InFilePath)
 {
     std::string ShaderStr = ReadFile(InFilePath);
-    std::cout << ShaderStr << "\n";
+    const char* ShaderSource = ShaderStr.c_str();
+    
+    GLuint ShaderId = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(ShaderId, 1, &ShaderSource, NULL);
+    glCompileShader(ShaderId);
+
+    GLint Success;
+    glGetShaderiv(ShaderId, GL_COMPILE_STATUS, &Success);
+    if (!Success)
+    {   
+        GLint MaxLogLength;
+        glGetShaderiv(ShaderId, GL_INFO_LOG_LENGTH, &MaxLogLength);
+
+        char buffer[512];
+        //std::vector<GLchar> InfoLog(MaxLogLength);
+        //glGetShaderInfoLog(ShaderId, GL_INFO_LOG_LENGTH, NULL, InfoLog.data());
+        glGetShaderInfoLog(ShaderId, 512, NULL, buffer);
+        DIE(buffer);
+    }
+    return ShaderId;
 }
 
 

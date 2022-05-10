@@ -25,7 +25,7 @@ Window::Window(int InWidth, int InHeight, const std::string& InTitle)
 	glfwMakeContextCurrent(RawWindow);
 
     // load GLAD
-	DIE_ON_ERROR(glfwInit(), "Error: GLAD Wrapper");
+	DIE_ON_ERROR(gladLoadGL(), "Error: GLAD Wrapper");
 }
 
 Window::~Window()
