@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Window.h"
+#include "Ex01TriangleDraw.h"
 
 int main() {
 	std::cout << "It' Working" << std::endl;
@@ -8,6 +9,9 @@ int main() {
 	
 	float TimeElapsed = 0.f;
 
+	Ex01TriangleDraw Scene;
+
+	Scene.Start();
 	// till Window is not in closing
 	while (Win->IsOpened())
 	{
@@ -22,10 +26,13 @@ int main() {
 
 			Win->SetTitle(Title);
 		}
+
+		Scene.Update();
 		
 		Win->Update();
 	}
 
+	Scene.Destroy();
 	delete Win;
 	return 0;	
 }
