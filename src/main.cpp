@@ -1,6 +1,8 @@
 #include <iostream>
 #include "Window.h"
 #include "Ex01TriangleDraw.h"
+#include "Ex02QuadDraw.h"
+#include "Ex03QuadIndexDraw.h"
 
 int main() {
 	std::cout << "It' Working" << std::endl;
@@ -9,7 +11,9 @@ int main() {
 	
 	float TimeElapsed = 0.f;
 
-	Ex01TriangleDraw Scene;
+	//Ex01TriangleDraw Scene;
+	//Ex02QuadDraw Scene;
+	Ex03QuadIndexDraw Scene;
 
 	Scene.Start();
 	// till Window is not in closing

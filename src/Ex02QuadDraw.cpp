@@ -1,5 +1,5 @@
 #pragma once
-#include "Ex01TriangleDraw.h"
+#include "Ex02QuadDraw.h"
 #include <string>
 #include <fstream>
 #include "Common.h"
@@ -8,7 +8,7 @@
 #include <vector>
 #include "OGLProgram.h"
 
-void Ex01TriangleDraw::Start() 
+void Ex02QuadDraw::Start() 
 {
     GLuint VertexShaderId = CreateShader("resources/shaders/triangle.vert", GL_VERTEX_SHADER);
     GLuint FragmeShaderId = CreateShader("resources/shaders/triangle.frag", GL_FRAGMENT_SHADER);
@@ -17,7 +17,11 @@ void Ex01TriangleDraw::Start()
     std::vector<float> Vertices = {
         0.5f, -0.5f, 0.0f, //bottom right
        -0.5f, -0.5f, 0.0f, //bottom left
-        0.0f, 0.5f,  0.0f //top
+       -0.5f,  0.5f, 0.0f, //top left
+
+       -0.5f,  0.5f, 0.0f, //top left
+        0.5f,  0.5f, 0.0f, //top right
+        0.5f, -0.5f, 0.0f  //bottom right
     };
 
     //1. Create VAO
@@ -42,13 +46,13 @@ void Ex01TriangleDraw::Start()
     glUseProgram(ProgramId);
 }
 
-void Ex01TriangleDraw::Update()
+void Ex02QuadDraw::Update()
 {
     glClear(GL_COLOR_BUFFER_BIT);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-void Ex01TriangleDraw::Destroy()
+void Ex02QuadDraw::Destroy()
 {   
     glDeleteVertexArrays(1, &Vao);
     glDeleteBuffers(1, &Vbo);

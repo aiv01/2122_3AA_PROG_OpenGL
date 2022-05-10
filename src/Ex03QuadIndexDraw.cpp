@@ -1,5 +1,5 @@
 #pragma once
-#include "Ex01TriangleDraw.h"
+#include "Ex03QuadIndexDraw.h"
 #include <string>
 #include <fstream>
 #include "Common.h"
@@ -8,7 +8,7 @@
 #include <vector>
 #include "OGLProgram.h"
 
-void Ex01TriangleDraw::Start() 
+void Ex03QuadIndexDraw::Start() 
 {
     GLuint VertexShaderId = CreateShader("resources/shaders/triangle.vert", GL_VERTEX_SHADER);
     GLuint FragmeShaderId = CreateShader("resources/shaders/triangle.frag", GL_FRAGMENT_SHADER);
@@ -17,7 +17,13 @@ void Ex01TriangleDraw::Start()
     std::vector<float> Vertices = {
         0.5f, -0.5f, 0.0f, //bottom right
        -0.5f, -0.5f, 0.0f, //bottom left
-        0.0f, 0.5f,  0.0f //top
+       -0.5f,  0.5f, 0.0f, //top left
+        0.5f,  0.5f, 0.0f  //top right
+    };
+
+    std::vector<uint32_t> Indexes = {
+        0, 1, 2, //left triangle
+        2, 3, 0  //right triangle
     };
 
     //1. Create VAO
@@ -27,7 +33,6 @@ void Ex01TriangleDraw::Start()
     //2. Create VBO to load data
     glGenBuffers(1, &Vbo);
     glBindBuffer(GL_ARRAY_BUFFER, Vbo);
-
     int DataSize = Vertices.size() * sizeof(float);
     glBufferData(GL_ARRAY_BUFFER, DataSize, Vertices.data(), GL_STATIC_DRAW);
 
@@ -36,21 +41,28 @@ void Ex01TriangleDraw::Start()
     glVertexAttribPointer(Location_0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(Location_0);
 
-    //4. Set Viewport
+    //4. Create EBO (element buffer)
+    glGenBuffers(1, &Ebo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Ebo);
+    int EboDataSize = Indexes.size() * sizeof(uint32_t);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, EboDataSize, Indexes.data(), GL_STATIC_DRAW);
+
+    //5. Set Viewport
     glViewport(0, 0, 800, 600);
     glClearColor(0.5f, 0.5f, 0.5f, 1.f);
     glUseProgram(ProgramId);
 }
 
-void Ex01TriangleDraw::Update()
+void Ex03QuadIndexDraw::Update()
 {
     glClear(GL_COLOR_BUFFER_BIT);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
 }
 
-void Ex01TriangleDraw::Destroy()
+void Ex03QuadIndexDraw::Destroy()
 {   
     glDeleteVertexArrays(1, &Vao);
     glDeleteBuffers(1, &Vbo);
+    glDeleteBuffers(1, &Ebo);
     glDeleteProgram(ProgramId);
 }
