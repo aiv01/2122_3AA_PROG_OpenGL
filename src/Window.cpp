@@ -9,13 +9,7 @@ Window::Window(int InWidth, int InHeight, const std::string& InTitle)
 {
     DeltaTime = 0.f;
     LastTime = 0.f;
-
-	/*
-    if (!glfwInit() )
-	{
-		std::cout << "Failed to initialize GLFW" << std::endl;
-	}
-	*/
+	
 	DIE_ON_ERROR(glfwInit(), "Failed to initialize GLFW");
 
 	// hints to init window
@@ -25,27 +19,12 @@ Window::Window(int InWidth, int InHeight, const std::string& InTitle)
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
 	RawWindow = glfwCreateWindow(Width, Height, Title.c_str(), NULL, NULL);
-
-	/*
-	if (!RawWindow)
-	{
-		std::cout << "Error: Opening Window" << std::endl;
-	}
-	*/
-
 	DIE_ON_NULL(RawWindow, "Error: Opening Window");
 
     // redirect all commands to window
 	glfwMakeContextCurrent(RawWindow);
 
     // load GLAD
-	/*
-	if (!gladLoadGL())
-	{
-		std::cout << "Error: GLAD Wrapper" << std::endl;
-	}
-	*/
-
 	DIE_ON_ERROR(glfwInit(), "Error: GLAD Wrapper");
 }
 
