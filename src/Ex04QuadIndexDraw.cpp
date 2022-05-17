@@ -60,6 +60,9 @@ void Ex04QuadColorDraw::Start()
     glUniform4fv(BaseColorLocation, 1, RedPtr);
 
     ElapsedTime = 0.f;
+
+    //glUniform1f(glGetUniformLocation(Program->Id, "data.value1"), 1.f);
+    //glUniform1f(glGetUniformLocation(Program->Id, "data.value2"), 2.f);
 }
 
 void Ex04QuadColorDraw::Update(float InDeltaTime)
