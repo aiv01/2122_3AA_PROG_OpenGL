@@ -1,6 +1,5 @@
 #pragma once
-
-typedef unsigned int GLuint;
+#include "Common.h"
 
 class Ex03QuadIndexDraw
 {
@@ -9,7 +8,7 @@ public:
     void Update();
     void Destroy();
 private:
-    GLuint ProgramId;
+    OGLProgram* Program;
     GLuint Vao;
     GLuint Vbo;
     GLuint Ebo;

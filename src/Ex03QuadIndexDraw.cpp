@@ -10,9 +10,7 @@
 
 void Ex03QuadIndexDraw::Start() 
 {
-    GLuint VertexShaderId = CreateShader("resources/shaders/triangle.vert", GL_VERTEX_SHADER);
-    GLuint FragmeShaderId = CreateShader("resources/shaders/triangle.frag", GL_FRAGMENT_SHADER);
-    ProgramId = CreateProgram(VertexShaderId, FragmeShaderId);
+    Program = new OGLProgram("resources/shaders/triangle.vert", "resources/shaders/triangle.frag");
 
     std::vector<float> Vertices = {
         0.5f, -0.5f, 0.0f, //bottom right
@@ -50,7 +48,7 @@ void Ex03QuadIndexDraw::Start()
     //5. Set Viewport
     glViewport(0, 0, 800, 600);
     glClearColor(0.5f, 0.5f, 0.5f, 1.f);
-    glUseProgram(ProgramId);
+    Program->Bind();
 }
 
 void Ex03QuadIndexDraw::Update()
@@ -64,5 +62,5 @@ void Ex03QuadIndexDraw::Destroy()
     glDeleteVertexArrays(1, &Vao);
     glDeleteBuffers(1, &Vbo);
     glDeleteBuffers(1, &Ebo);
-    glDeleteProgram(ProgramId);
+    delete Program;
 }

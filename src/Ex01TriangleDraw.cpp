@@ -10,9 +10,7 @@
 
 void Ex01TriangleDraw::Start() 
 {
-    GLuint VertexShaderId = CreateShader("resources/shaders/triangle.vert", GL_VERTEX_SHADER);
-    GLuint FragmeShaderId = CreateShader("resources/shaders/triangle.frag", GL_FRAGMENT_SHADER);
-    ProgramId = CreateProgram(VertexShaderId, FragmeShaderId);
+    Program = new OGLProgram("resources/shaders/triangle.vert", "resources/shaders/triangle.frag"); 
 
     std::vector<float> Vertices = {
         0.5f, -0.5f, 0.0f, //bottom right
@@ -39,7 +37,7 @@ void Ex01TriangleDraw::Start()
     //4. Set Viewport
     glViewport(0, 0, 800, 600);
     glClearColor(0.5f, 0.5f, 0.5f, 1.f);
-    glUseProgram(ProgramId);
+    Program->Bind();
 }
 
 void Ex01TriangleDraw::Update()
@@ -52,5 +50,5 @@ void Ex01TriangleDraw::Destroy()
 {   
     glDeleteVertexArrays(1, &Vao);
     glDeleteBuffers(1, &Vbo);
-    glDeleteProgram(ProgramId);
+    delete Program;
 }

@@ -1,7 +1,5 @@
 #pragma once
-
-typedef unsigned int GLuint;
-
+#include "Common.h"
 class Ex01TriangleDraw
 {
 public:
@@ -9,7 +7,7 @@ public:
     void Update();
     void Destroy();
 private:
-    GLuint ProgramId;
+    OGLProgram* Program;
     GLuint Vao;
     GLuint Vbo;
 };
