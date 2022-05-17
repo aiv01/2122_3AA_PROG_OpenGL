@@ -14,3 +14,10 @@
 typedef unsigned int GLuint;
 class OGLProgram;
 #pragma endregion
+
+struct Color {
+    float R;
+    float G;
+    float B;
+    float A;
+};

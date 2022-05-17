@@ -7,6 +7,7 @@ public:
     OGLProgram(const std::string& InVertShaderPath, const std::string& InFragShaderPath);
     ~OGLProgram();
     void Bind();
-private:
+//private:
+public:
     GLuint Id;
 };

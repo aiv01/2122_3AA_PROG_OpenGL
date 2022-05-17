@@ -77,8 +77,8 @@ static GLuint CreateProgram(GLuint InVertId, GLuint InFragId)
 
 OGLProgram::OGLProgram(const std::string& InVertShaderPath, const std::string& InFragShaderPath)
 {
-    GLuint VertexShaderId = CreateShader("resources/shaders/triangle.vert", GL_VERTEX_SHADER);
-    GLuint FragmeShaderId = CreateShader("resources/shaders/triangle.frag", GL_FRAGMENT_SHADER);
+    GLuint VertexShaderId = CreateShader(InVertShaderPath, GL_VERTEX_SHADER);
+    GLuint FragmeShaderId = CreateShader(InFragShaderPath, GL_FRAGMENT_SHADER);
     Id = CreateProgram(VertexShaderId, FragmeShaderId);
 }
 
