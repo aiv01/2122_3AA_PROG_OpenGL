@@ -91,3 +91,15 @@ void OGLProgram::Bind()
 {
     glUseProgram(Id);
 }
+
+void OGLProgram::SetUniform(const std::string& InName, float InValue)
+{
+    glUniform1f(glGetUniformLocation(Id, InName.c_str()), InValue);
+}
+
+void OGLProgram::SetUniform(const std::string& InName, const Color& InValue)
+{
+    GLint BaseColorLocation = glGetUniformLocation(Id, InName.c_str());
+    const GLfloat* ColorPtr = (GLfloat*)&InValue;
+    glUniform4fv(BaseColorLocation, 1, ColorPtr);
+}

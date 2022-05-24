@@ -7,37 +7,38 @@
 #include <glad/glad.h>
 #include <vector>
 #include "OGLProgram.h"
+#include "OGLTexture.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-GLuint CreateTexture(const std::string& InImgPath)
-{   
-    stbi_set_flip_vertically_on_load(true);
-    int Width, Height, Channels;
-    unsigned char* Data = stbi_load(InImgPath.c_str(), &Width, &Height, &Channels, 0);
-    DIE_ON_NULL(Data, "Failed Loading Texture");
+// static GLuint CreateTexture(const std::string& InImgPath)
+// {   
+//     stbi_set_flip_vertically_on_load(true);
+//     int Width, Height, Channels;
+//     unsigned char* Data = stbi_load(InImgPath.c_str(), &Width, &Height, &Channels, 0);
+//     DIE_ON_NULL(Data, "Failed Loading Texture");
 
-    GLenum Format = Channels == 3 ? GL_RGB : GL_RGBA;
+//     GLenum Format = Channels == 3 ? GL_RGB : GL_RGBA;
 
-    GLuint TextureId;
-    glGenTextures(1, &TextureId);
-    glBindTexture(GL_TEXTURE_2D, TextureId);
+//     GLuint TextureId;
+//     glGenTextures(1, &TextureId);
+//     glBindTexture(GL_TEXTURE_2D, TextureId);
 
-    //Load Data to GPU
-    glTexImage2D(GL_TEXTURE_2D, 0, Format, Width, Height, 0, Format, GL_UNSIGNED_BYTE, Data);
-    //Wrapping
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    //Filtering
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    //Mimapping (Optional)
-    glGenerateMipmap(GL_TEXTURE_2D);
+//     //Load Data to GPU
+//     glTexImage2D(GL_TEXTURE_2D, 0, Format, Width, Height, 0, Format, GL_UNSIGNED_BYTE, Data);
+//     //Wrapping
+//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+//     //Filtering
+//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+//     //Mimapping (Optional)
+//     glGenerateMipmap(GL_TEXTURE_2D);
 
-    stbi_image_free(Data);
-    return TextureId;
-}
+//     stbi_image_free(Data);
+//     return TextureId;
+// }
 
 void Ex05QuadTextureDraw::Start() 
 {
@@ -86,10 +87,12 @@ void Ex05QuadTextureDraw::Start()
     glClearColor(0.5f, 0.5f, 0.5f, 1.f);
     Program->Bind();
 
-    GLint BaseColorLocation = glGetUniformLocation(Program->Id, "base_color");
-    Color Red{0.5f, 0.5f, 0.5f, 1.f};
-    const GLfloat* RedPtr = (GLfloat*)&Red;
-    glUniform4fv(BaseColorLocation, 1, RedPtr);
+    Color Red{1.f, 0.f, 0.f, 1.f};
+    Program->SetUniform("base_color",Red);
+    // GLint BaseColorLocation = glGetUniformLocation(Program->Id, "base_color");
+    // Color Red{0.5f, 0.5f, 0.5f, 1.f};
+    // const GLfloat* RedPtr = (GLfloat*)&Red;
+    // glUniform4fv(BaseColorLocation, 1, RedPtr);
 
     ElapsedTime = 0.f;
 
@@ -97,15 +100,11 @@ void Ex05QuadTextureDraw::Start()
     //glUniform1f(glGetUniformLocation(Program->Id, "data.value2"), 2.f);
 
     //6. Create Texture
-    SmileTextureId = CreateTexture("resources/textures/smile.png");
-    WoodTextureId = CreateTexture("resources/textures/wood-box.jpg");
+    SmileOGLTexture = new OGLTexture("resources/textures/smile.png");
+    WoodOGLTexture = new OGLTexture("resources/textures/wood-box.jpg");
     
-    glActiveTexture(GL_TEXTURE0);
-
-    glBindTexture(GL_TEXTURE_2D, SmileTextureId);
-
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, WoodTextureId);
+    SmileOGLTexture->Bind(GL_TEXTURE0);
+    WoodOGLTexture->Bind(GL_TEXTURE1);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -136,7 +135,8 @@ void Ex05QuadTextureDraw::Destroy()
     glDeleteVertexArrays(1, &Vao);
     glDeleteBuffers(1, &Vbo);
     glDeleteBuffers(1, &Ebo);
-    glDeleteTextures(1, &SmileTextureId);
-    glDeleteTextures(1, &WoodTextureId);
+    //glDeleteTextures(1, &SmileTextureId);
+    delete SmileOGLTexture;
+    delete WoodOGLTexture;
     delete Program;
 }

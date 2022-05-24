@@ -12,6 +12,8 @@
 
 #pragma region OGL
 typedef unsigned int GLuint;
+typedef unsigned int GLenum;
+class OGLTexture;
 class OGLProgram;
 #pragma endregion
 
