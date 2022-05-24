@@ -1,5 +1,5 @@
 #pragma once
-#include "Ex05QuadTextureDraw.h"
+#include "Ex06QuadPersDraw.h"
 #include <string>
 #include <fstream>
 #include "Common.h"
@@ -9,38 +9,10 @@
 #include "OGLProgram.h"
 #include "OGLTexture.h"
 
-// static GLuint CreateTexture(const std::string& InImgPath)
-// {   
-//     stbi_set_flip_vertically_on_load(true);
-//     int Width, Height, Channels;
-//     unsigned char* Data = stbi_load(InImgPath.c_str(), &Width, &Height, &Channels, 0);
-//     DIE_ON_NULL(Data, "Failed Loading Texture");
-
-//     GLenum Format = Channels == 3 ? GL_RGB : GL_RGBA;
-
-//     GLuint TextureId;
-//     glGenTextures(1, &TextureId);
-//     glBindTexture(GL_TEXTURE_2D, TextureId);
-
-//     //Load Data to GPU
-//     glTexImage2D(GL_TEXTURE_2D, 0, Format, Width, Height, 0, Format, GL_UNSIGNED_BYTE, Data);
-//     //Wrapping
-//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-//     //Filtering
-//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-//     //Mimapping (Optional)
-//     glGenerateMipmap(GL_TEXTURE_2D);
-
-//     stbi_image_free(Data);
-//     return TextureId;
-// }
-
-void Ex05QuadTextureDraw::Start() 
+void Ex06QuadPersDraw::Start() 
 {
-    Program = new OGLProgram("resources/shaders/quadtexture.vert", 
-                             "resources/shaders/quadtexture.frag");
+    Program = new OGLProgram("resources/shaders/quadperspectivetexture.vert", 
+                             "resources/shaders/quadperspectivetexture.frag");
 
     std::vector<float> Vertices = {
         0.5f, -0.5f, 0.0f,  1.f, 0.f, //bottom right
@@ -110,7 +82,7 @@ void Ex05QuadTextureDraw::Start()
     //glUniform1i(glGetUniformLocation(Program->Id, "wood_tex"), 1);
 }
 
-void Ex05QuadTextureDraw::Update(float InDeltaTime)
+void Ex06QuadPersDraw::Update(float InDeltaTime)
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)0);
@@ -127,7 +99,7 @@ void Ex05QuadTextureDraw::Update(float InDeltaTime)
  */
 }   
 
-void Ex05QuadTextureDraw::Destroy()
+void Ex06QuadPersDraw::Destroy()
 {   
     glDeleteVertexArrays(1, &Vao);
     glDeleteBuffers(1, &Vbo);
