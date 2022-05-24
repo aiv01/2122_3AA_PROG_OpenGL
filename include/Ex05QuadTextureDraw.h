@@ -12,6 +12,8 @@ private:
     GLuint Vao;
     GLuint Vbo;
     GLuint Ebo;
+    GLuint SmileTextureId;
+    GLuint WoodTextureId;
 
     float ElapsedTime;
 };

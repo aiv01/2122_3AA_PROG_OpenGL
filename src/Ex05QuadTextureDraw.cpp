@@ -97,16 +97,15 @@ void Ex05QuadTextureDraw::Start()
     //glUniform1f(glGetUniformLocation(Program->Id, "data.value2"), 2.f);
 
     //6. Create Texture
-    GLuint SmileTextureId = CreateTexture("resources/textures/smile.png");
-    GLuint WoodTextureId = CreateTexture("resources/textures/wood-box.jpg");
-
+    SmileTextureId = CreateTexture("resources/textures/smile.png");
+    WoodTextureId = CreateTexture("resources/textures/wood-box.jpg");
     
     glActiveTexture(GL_TEXTURE0);
+
     glBindTexture(GL_TEXTURE_2D, SmileTextureId);
 
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, WoodTextureId);
-
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -137,5 +136,7 @@ void Ex05QuadTextureDraw::Destroy()
     glDeleteVertexArrays(1, &Vao);
     glDeleteBuffers(1, &Vbo);
     glDeleteBuffers(1, &Ebo);
+    glDeleteTextures(1, &SmileTextureId);
+    glDeleteTextures(1, &WoodTextureId);
     delete Program;
 }
