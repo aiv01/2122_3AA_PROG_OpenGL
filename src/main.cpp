@@ -6,6 +6,7 @@
 #include "Ex04QuadColorDraw.h"
 #include "Ex05QuadTextureDraw.h"
 #include "Ex06QuadPersDraw.h"
+#include "Ex07CubePersDraw.h"
 
 int main() {
 	std::cout << "It' Working" << std::endl;
@@ -19,7 +20,8 @@ int main() {
 	//Ex03QuadIndexDraw Scene;
 	//Ex04QuadColorDraw Scene;
 	//Ex05QuadTextureDraw Scene;
-	Ex06QuadPersDraw Scene;
+	// Ex06QuadPersDraw Scene;
+	Ex07CubePersDraw Scene;
 
 	Scene.Start();
 	// till Window is not in closing
