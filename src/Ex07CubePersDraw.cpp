@@ -13,61 +13,8 @@ void Ex07CubePersDraw::Start()
 {
     Program = new OGLProgram("resources/shaders/cubeperspective.vert", 
                              "resources/shaders/cubeperspective.frag");
-
+    
     std::vector<float> Vertices = {
-        // // front face
-        // -1, -1, 1,   0, 0, // bottom left
-        //  1, -1, 1,   1, 0, // bottom right
-        //  1,  1, 1,   1, 1, // top right
-
-        //  1,  1, 1,   1, 1, // top right
-        // -1,  1, 1,   0, 1, // top left
-        // -1, -1, 1,   0, 0, // bottom left
-
-        // // back face
-        //  1, -1, -1,   0, 0, // bottom left
-        // -1, -1, -1,   1, 0, // bottom right
-        // -1,  1, -1,   1, 1, // top right
-
-        // -1,  1, -1,   1, 1, // top right
-        //  1,  1, -1,   0, 1, // top left
-        //  1, -1, -1,   0, 0, // bottom left
-
-        // // left face
-        // -1, -1, -1,   0, 0, // bottom left
-        // -1, -1,  1,   1, 0, // bottom right
-        // -1,  1,  1,   1, 1, // top right
-
-        // -1,  1,  1,   1, 1, // top right
-        // -1,  1, -1,   0, 1, // top left
-        // -1, -1, -1,   0, 0, // bottom left
-
-        // // right face
-        //  1, -1,  1,   0, 0, // bottom left
-        //  1, -1, -1,   1, 0, // bottom right
-        //  1,  1, -1,   1, 1, // top right
-
-        //  1,  1, -1,   1, 1, // top right
-        //  1,  1,  1,   0, 1, // top left
-        //  1, -1,  1,   0, 0, // bottom left
-        
-        // // bottom face
-        // -1, -1, -1,   0, 0, // bottom left
-        //  1, -1, -1,   1, 0, // bottom right
-        //  1, -1,  1,   1, 1, // top right
-
-        //  1, -1,  1,   1, 1, // top right
-        // -1, -1,  1,   0, 1, // top left
-        // -1, -1, -1,   0, 0, // bottom left
-
-        // // top face
-        // -1,  1, -1,   0, 0, // bottom left
-        //  1,  1, -1,   1, 0, // bottom right
-        //  1,  1,  1,   1, 1, // top right
-
-        //  1,  1,  1,   1, 1, // top right
-        // -1,  1,  1,   0, 1, // top left
-        // -1,  1, -1,   0, 0, // bottom left
         //FRONT FACE
         -1.f, -1.f,  1.f,   0.f, 0.f, //bottom left
         1.f,  -1.f,  1.f,   1.f, 0.f, //bottom right
@@ -141,9 +88,6 @@ void Ex07CubePersDraw::Start()
     glClearColor(0.5f, 0.5f, 0.5f, 1.f);
     Program->Bind();
 
-    Color Red{1.f, 0.f, 0.f, 1.f};
-    Program->SetUniform("base_color",Red);
-    
     ElapsedTime = 0.f;
 
     //5. Create Texture
@@ -152,6 +96,7 @@ void Ex07CubePersDraw::Start()
 
     // glEnable(GL_BLEND);
     // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
@@ -161,18 +106,10 @@ void Ex07CubePersDraw::Start()
 void Ex07CubePersDraw::Update(float InDeltaTime)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-
-/*
+    
     ElapsedTime += InDeltaTime;
-
-    Color TimeColor;
-    TimeColor.R = sinf(ElapsedTime) * 0.5f + 0.5f;
-    TimeColor.G = cosf(ElapsedTime) * 0.5f + 0.5f;
-    TimeColor.B = cosf(ElapsedTime + 1.1f) * 0.5f + 0.5f;
-    TimeColor.A = 1.f;
-    glUniform4fv(glGetUniformLocation(Program->Id, "base_color"), 1, (GLfloat*)&TimeColor);
- */
+    Program->SetUniform("rotation", 20.f * ElapsedTime);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
 }   
 
 void Ex07CubePersDraw::Destroy()

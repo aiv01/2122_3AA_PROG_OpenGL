@@ -9,5 +9,4 @@ uniform vec4 base_color;
 void main() {
     vec4 wood_texel = texture(wood_tex, vert_uv_out);
     frag_color = wood_texel;
-    // frag_color *= base_color;
 }
