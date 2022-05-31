@@ -103,3 +103,15 @@ void OGLProgram::SetUniform(const std::string& InName, const Color& InValue)
     const GLfloat* ColorPtr = (GLfloat*)&InValue;
     glUniform4fv(BaseColorLocation, 1, ColorPtr);
 }
+
+void OGLProgram::SetUniform(const std::string& InName, const glm::mat4& InValue)
+{
+    GLint Loc = glGetUniformLocation(Id, InName.c_str());
+    glUniformMatrix4fv(Loc, 1, GL_FALSE, &InValue[0][0]);
+}
+
+void OGLProgram::SetUniform(const std::string& InName, const glm::vec3& InValue)
+{
+    GLint Loc = glGetUniformLocation(Id, InName.c_str());
+    glUniform3fv(Loc, 1, &InValue[0]);
+}
