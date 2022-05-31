@@ -20,8 +20,9 @@ vec3 perspective(vec3 pos)
     persp.x = pos.x / -pos.z;
     persp.y = pos.y / -pos.z;
     //Trasforming Z in NDC range [-1, 1] where near = -1 and far = 1
+    //persp.z = ((pos.z - near) / range) * 2 + 1;
     persp.z = ((-pos.z - near) / range) * 2 - 1;
-    
+
     persp.x = persp.x / (fov * aspect_ratio);
     persp.y = persp.y / fov;
 
