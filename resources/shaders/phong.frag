@@ -46,7 +46,7 @@ void main() {
             Kl * distance;
             Kd * distance * distance;
 
-        contribute = Kc + Kl + Kd
+        contribute = Kc + Kl + Kq
 
 
         phong *= attenuation;
