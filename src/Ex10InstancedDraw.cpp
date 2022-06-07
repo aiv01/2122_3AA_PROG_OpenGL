@@ -16,13 +16,13 @@ void Ex10InstancedDraw::Start()
                              "resources/shaders/instanced.frag");
     
     std::vector<float> Vertices = {
-        -0.5f, -0.5f, 0.0f,   //bottom left
-         0.5f, -0.5f, 0.0f,   //bottom right
-        -0.5f,  0.5f, 0.0f,   //top left
+        -0.5f, -0.5f, 0.0f, 0,0,  //bottom left
+         0.5f, -0.5f, 0.0f, 1,0,  //bottom right
+        -0.5f,  0.5f, 0.0f, 0,1,  //top left
 
-        -0.5f,  0.5f, 0.0f,   //top left
-         0.5f, -0.5f, 0.0f,   //bottom right
-         0.5f,  0.5f, 0.0f,   //top right
+        -0.5f,  0.5f, 0.0f, 0,1,  //top left
+         0.5f, -0.5f, 0.0f, 1,0,  //bottom right
+         0.5f,  0.5f, 0.0f, 1,1,  //top right
     };
 
     //1. Create VAO
@@ -37,11 +37,15 @@ void Ex10InstancedDraw::Start()
 
     //3. Link to Vertex Shader
     GLuint Location_0 = 0;
-    glVertexAttribPointer(Location_0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glVertexAttribPointer(Location_0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(Location_0);
 
+    GLuint Location_5 = 5;
+    glVertexAttribPointer(Location_5, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(Location_5);
+
     //4. Set Viewport
-    glViewport(0, 0, 800, 600);
+    glViewport(0, 0, 1000, 600);
     glClearColor(0.5f, 0.5f, 0.5f, 1.f);
     Program->Bind();
 
@@ -50,6 +54,11 @@ void Ex10InstancedDraw::Start()
     //5. Create Texture
     //WoodOGLTexture = new OGLTexture("resources/textures/wood-box.jpg");
     //WoodOGLTexture->Bind(GL_TEXTURE0);
+    SmileOGLTexture = new OGLTexture("resources/textures/smile.png");
+    WoodOGLTexture = new OGLTexture("resources/textures/wood-box.jpg");
+    
+    SmileOGLTexture->Bind(GL_TEXTURE0);
+    WoodOGLTexture->Bind(GL_TEXTURE1);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

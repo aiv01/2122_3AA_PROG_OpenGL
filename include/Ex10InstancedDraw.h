@@ -21,6 +21,7 @@ private:
     GLuint Vao;
     GLuint Vbo;
     GLuint Ebo;
+    OGLTexture* SmileOGLTexture;
     OGLTexture* WoodOGLTexture;
 
     float ElapsedTime;
