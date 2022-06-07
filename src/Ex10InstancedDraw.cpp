@@ -75,11 +75,19 @@ void Ex10InstancedDraw::Start()
 
     ///////////////////////////////////////////
     glm::vec3 BasePosition{-5.f, 0.f, 0.f};
+    glm::vec3 BaseRotation{0.f};
+    glm::vec3 BaseScale{0.5f};
 
     for(int Index = 0; Index < 10; Index++)
     {
-        Instances[Index].position = BasePosition;
+        Instances[Index].Position = BasePosition;
         BasePosition += glm::vec3(1.5f, 0.f, 0.f);
+        
+        Instances[Index].Rotation = BaseRotation;
+        BaseRotation[2] += 10.f;
+        
+        Instances[Index].Scale = BaseScale;
+        BaseScale += glm::vec3(0.3f, 0.3f, 0.3f);
     }
 
     glGenBuffers(1, &VboMvp);
@@ -121,9 +129,10 @@ void Ex10InstancedDraw::Update(float InDeltaTime)
 
         //float Angle = 20.f * ElapsedTime;
         glm::mat4 Model = glm::mat4(1.f);
-        Model = glm::translate(Model, EachInstance.position);
-        //Model = glm::rotate(Model, glm::radians(Angle), glm::vec3(0.f, 0.f, 1.f));
-        //Model = glm::scale(Model, glm::vec3(2.f));
+        Model = glm::translate(Model, EachInstance.Position);
+        Model = glm::rotate(Model, glm::radians(EachInstance.Rotation[2] * ElapsedTime), glm::vec3(0.f, 0.f, 1.f));
+        Model = glm::scale(Model, EachInstance.Scale);
+        
         
         glm::mat4 Mvp = Projection * View * Model;
         MvpData[Index] = Mvp;
