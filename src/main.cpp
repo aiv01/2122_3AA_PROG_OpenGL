@@ -27,8 +27,8 @@ int main() {
 	// Ex06QuadPersDraw Scene;
 	//Ex07CubePersDraw Scene;
 	//Ex08PhongDraw Scene;
-	Ex09Exercises Scene;
-	//Ex10InstancedDraw Scene;
+	//Ex09Exercises Scene;
+	Ex10InstancedDraw Scene;
 	//Ex11PostFxDraw Scene;
 
 	Scene.Start();

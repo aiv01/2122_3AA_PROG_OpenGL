@@ -71,6 +71,42 @@ void Ex10InstancedDraw::Start()
     //M*V*P
     View = glm::lookAt(Position, Position + Direction, Up);
     Projection = glm::perspective(glm::radians(FovY), AspectRatio, ZNear, ZFar);
+
+
+    ///////////////////////////////////////////
+    glm::vec3 BasePosition{-5.f, 0.f, 0.f};
+
+    for(int Index = 0; Index < 10; Index++)
+    {
+        Instances[Index].position = BasePosition;
+        BasePosition += glm::vec3(1.5f, 0.f, 0.f);
+    }
+
+    glGenBuffers(1, &VboMvp);
+    glBindBuffer(GL_ARRAY_BUFFER, VboMvp);
+    glBufferData(GL_ARRAY_BUFFER, 10 * sizeof(glm::mat4), NULL, GL_STREAM_DRAW);
+
+    GLuint Location_Mvp = 1;
+    glVertexAttribPointer(Location_Mvp, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
+    glEnableVertexAttribArray(Location_Mvp);
+    glVertexAttribDivisor(Location_Mvp, 1);
+
+    Location_Mvp++;
+    glVertexAttribPointer(Location_Mvp, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(sizeof(glm::vec4)));
+    glEnableVertexAttribArray(Location_Mvp);
+    glVertexAttribDivisor(Location_Mvp, 1);
+
+    Location_Mvp++;
+    glVertexAttribPointer(Location_Mvp, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(2 * sizeof(glm::vec4)));
+    glEnableVertexAttribArray(Location_Mvp);
+    glVertexAttribDivisor(Location_Mvp, 1);
+
+    Location_Mvp++;
+    glVertexAttribPointer(Location_Mvp, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(3 * sizeof(glm::vec4)));
+    glEnableVertexAttribArray(Location_Mvp);
+    glVertexAttribDivisor(Location_Mvp, 1);
+
+    MvpData.resize(10);
 }
 
 void Ex10InstancedDraw::Update(float InDeltaTime)
@@ -79,17 +115,27 @@ void Ex10InstancedDraw::Update(float InDeltaTime)
     
     ElapsedTime += InDeltaTime;
     
-    float Angle = 20.f * ElapsedTime;
-    glm::mat4 Model = glm::mat4(1.f);
-    Model = glm::translate(Model, glm::vec3(0.f, 0.f, 0.f));
-    Model = glm::rotate(Model, glm::radians(Angle), glm::vec3(0.f, 0.f, 1.f));
-    Model = glm::scale(Model, glm::vec3(2.f));
-    
-    glm::mat4 Mvp = Projection * View * Model;
-    
-    Program->SetUniform("mvp", Mvp);
+    for(int Index = 0; Index < MvpData.size(); Index++) 
+    {
+        MyInstance& EachInstance = Instances[Index];
 
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+        //float Angle = 20.f * ElapsedTime;
+        glm::mat4 Model = glm::mat4(1.f);
+        Model = glm::translate(Model, EachInstance.position);
+        //Model = glm::rotate(Model, glm::radians(Angle), glm::vec3(0.f, 0.f, 1.f));
+        //Model = glm::scale(Model, glm::vec3(2.f));
+        
+        glm::mat4 Mvp = Projection * View * Model;
+        MvpData[Index] = Mvp;
+    }
+
+    glBufferSubData(GL_ARRAY_BUFFER, 0, MvpData.size() * sizeof(glm::mat4), MvpData.data());
+
+    
+    //Program->SetUniform("mvp", Mvp);
+    //glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    glDrawArraysInstanced(GL_TRIANGLES, 0, 6, 10);
 }   
 
 void Ex10InstancedDraw::Destroy()

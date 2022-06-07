@@ -1,6 +1,12 @@
 #pragma once
 #include "Common.h"
 #include <glm/glm.hpp>
+#include <vector>
+
+
+struct MyInstance {
+    glm::vec3 position;
+};
 
 class Ex10InstancedDraw
 {
@@ -19,4 +25,9 @@ private:
 
     glm::mat4 View;
     glm::mat4 Projection;
+
+
+     GLuint VboMvp;
+     MyInstance Instances[10];
+     std::vector<glm::mat4> MvpData;
 };
