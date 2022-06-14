@@ -186,7 +186,7 @@ void Ex11PostFxDraw::Update(float InDeltaTime)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     ElapsedTime += InDeltaTime;
-    float Angle = 20.f * ElapsedTime;
+    float Angle = 0.f * ElapsedTime;
     glm::mat4 Model = glm::mat4(1.f);
     Model = glm::translate(Model, glm::vec3(0.f, 0.f, 0.f));
     Model = glm::rotate(Model, glm::radians(Angle), glm::vec3(0.f, 1.f, 0.f));
@@ -201,7 +201,7 @@ void Ex11PostFxDraw::Update(float InDeltaTime)
 
     //2. Post Fx
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    
+
     glDisable(GL_BLEND);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
@@ -209,6 +209,7 @@ void Ex11PostFxDraw::Update(float InDeltaTime)
 
     glBindVertexArray(QuadVao);
     QuadProgram->Bind();
+    QuadProgram->SetUniform("time", ElapsedTime);
     glBindTextureUnit(0, SceneTex);
 
     glDrawArrays(GL_TRIANGLES, 0, 6);

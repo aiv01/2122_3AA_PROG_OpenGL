@@ -11,6 +11,7 @@
 #include "Ex09Exercises.h"
 #include "Ex10InstancedDraw.h"
 #include "Ex11PostFxDraw.h"
+#include "Ex12DeferredDraw.h"
 
 int main() {
 	std::cout << "It' Working" << std::endl;
@@ -29,7 +30,8 @@ int main() {
 	//Ex08PhongDraw Scene;
 	//Ex09Exercises Scene;
 	//Ex10InstancedDraw Scene;
-	Ex11PostFxDraw Scene;
+	//Ex11PostFxDraw Scene;
+	Ex12DeferredDraw Scene;
 
 	Scene.Start();
 	// till Window is not in closing
