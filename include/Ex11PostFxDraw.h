@@ -19,4 +19,12 @@ private:
 
     glm::mat4 View;
     glm::mat4 Projection;
+
+    OGLProgram* QuadProgram;
+    GLuint QuadVao;
+    GLuint QuadVbo;
+
+    GLuint SceneFbo;
+    GLuint SceneTex;
+    GLuint SceneRbo;
 };

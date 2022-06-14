@@ -45,7 +45,7 @@ void Ex10InstancedDraw::Start()
     glEnableVertexAttribArray(Location_5);
 
     //4. Set Viewport
-    glViewport(0, 0, 1000, 600);
+    glViewport(0, 0, 800, 600);
     glClearColor(0.5f, 0.5f, 0.5f, 1.f);
     Program->Bind();
 
@@ -66,6 +66,7 @@ void Ex10InstancedDraw::Start()
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
+    glDepthFunc(GL_LEQUAL);
 
 
     //camera

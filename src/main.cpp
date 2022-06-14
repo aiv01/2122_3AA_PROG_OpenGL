@@ -28,8 +28,8 @@ int main() {
 	//Ex07CubePersDraw Scene;
 	//Ex08PhongDraw Scene;
 	//Ex09Exercises Scene;
-	Ex10InstancedDraw Scene;
-	//Ex11PostFxDraw Scene;
+	//Ex10InstancedDraw Scene;
+	Ex11PostFxDraw Scene;
 
 	Scene.Start();
 	// till Window is not in closing
